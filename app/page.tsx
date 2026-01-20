@@ -193,9 +193,9 @@ const annualSpend = useMemo(() => {
     <main className="min-h-screen bg-gray-50 text-gray-900">
       <div className="mx-auto max-w-3xl p-6">
         <header className="mb-6">
-          <h1 className="text-2xl font-bold">개인용 FIRE 대시보드 (로컬)</h1>
+          <h1 className="text-2xl font-bold">은퇴가 하고 싶다 푸하하~ (은퇴 계산기)</h1>
           <p className="mt-2 text-sm text-gray-600">
-            데이터는 이 PC 브라우저에만 저장됩니다 (localStorage). 배포/계정 없음.
+            by 찬군.
           </p>
         </header>
 
@@ -225,7 +225,7 @@ const annualSpend = useMemo(() => {
               label="연 기대수익률 (%)"
               value={inputs.annualReturnPct}
               onChange={(v) => setInputs((p) => ({ ...p, annualReturnPct: clamp(v, -50, 50) }))}
-              hint="참고: VTI의 연평균 기대수익률은 8~12%"
+              hint="참고: SPY의 연평균 기대수익률은 8~12%"
             />
             <SelectField
               label="연 인출률 (%)"
