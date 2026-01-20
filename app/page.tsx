@@ -1,5 +1,21 @@
 "use client";
 
+/*
+[개발 / 배포 메모]
+
+- 로컬 개발 실행:
+  npm run dev
+  → http://localhost:3000
+
+- 퍼블릭(배포) 업데이트 순서:
+  git add .
+  git commit -m "메시지"
+  git push
+
+  → GitHub main 브랜치 푸시
+  → Vercel이 자동으로 재배포함 (1~3분 소요)
+*/
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   LineChart,
@@ -37,7 +53,7 @@ export default function Page() {
     monthlyContribution: 1500000,
     annualReturnPct: 8,
     targetAssets: 825000000,
-    currentAssets: 100000000,
+    currentAssets: 10000000,
     withdrawalRatePct: 4,
     safetyMarginPct: 10,
   });
