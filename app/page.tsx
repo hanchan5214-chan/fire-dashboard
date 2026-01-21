@@ -207,15 +207,17 @@ const annualSpend = useMemo(() => {
 
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900">
-      <div className="mx-auto max-w-3xl p-6">
+      <div className="mx-auto max-w-6xl p-6">
         <header className="mb-6">
           <h1 className="text-2xl font-bold">은퇴가 하고 싶다 푸하하~ (은퇴 계산기)</h1>
           <p className="mt-2 text-sm text-gray-600">
-            by 찬군.
+            입력된 값은 따로 수집되지 않습니다.
           </p>
         </header>
 
-        <section className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+          <div className="space-y-6">
+            // <section className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
           <h2 className="text-lg font-semibold">입력</h2>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -342,7 +344,12 @@ const annualSpend = useMemo(() => {
           <div className="mt-5 text-xs text-gray-500">
             계산식: 버퍼 포함 목표자산 = 목표자산 × (1+버퍼),  생활비(추정) = 목표자산 × 인출률 ÷ 12 ÷ (1+버퍼)
           </div>
-          <div className="mt-8">
+          
+        </section>
+          </div>
+
+        <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+            // <div className="mt-8">
             <h3 className="text-sm font-semibold text-gray-700 mb-2">
               자산 성장 시뮬레이션
             </h3>
@@ -389,12 +396,10 @@ const annualSpend = useMemo(() => {
               검은 선: 자산 성장 / 빨간 점선: 목표 자산
             </p>
           </div>
-        </section>
+          </div>
+        </div>
 
-
-
-
-
+        
         <footer className="mt-8 text-xs text-gray-500">
           팁: 입력값은 자동 저장됩니다. 초기화하려면 브라우저에서 사이트 데이터(저장소)를 삭제하세요.
         </footer>
