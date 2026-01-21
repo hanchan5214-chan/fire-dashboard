@@ -12,8 +12,10 @@
   git commit -m "Updated"
   git push
 
-  → GitHub main 브랜치 푸시
-  → Vercel이 자동으로 재배포함 (1~3분 소요)
+  * GitHub main 브랜치 푸시
+  * Vercel이 자동으로 재배포함 (1~3분 소요)
+  
+- 웹사이트 주소 : https://fire-dashboard-ecru.vercel.app
 */
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -169,30 +171,56 @@ const annualSpend = useMemo(() => {
   }, [fireNumber, inputs.currentAssets, inputs.monthlyContribution, inputs.annualReturnPct]);
 
   const chartData = useMemo(() => {
-    if (!Number.isFinite(fireNumber) || fireNumber <= 0) return [];
+  if (!Number.isFinite(fireNumber) || fireNumber <= 0) return [];
 
-    const data: { year: number; assets: number; target: number }[] = [];
+  const data: { year: number; assets: number; target: number }[] = [];
 
-    const P0 = inputs.currentAssets;
-    const PMT = inputs.monthlyContribution;
-    const rAnnual = inputs.annualReturnPct / 100;
-    const rMonthly = Math.pow(1 + rAnnual, 1 / 12) - 1;
+  const P0 = inputs.currentAssets;
+  const PMT = inputs.monthlyContribution;
 
-    let assets = P0;
-    const target = fireNumber;
+  const rAnnual = inputs.annualReturnPct / 100;
+  const rMonthly = Math.pow(1 + rAnnual, 1 / 12) - 1;
 
-    for (let year = 0; year <= 60; year++) {
-      data.push({ year, assets, target });
+  const wAnnual = inputs.withdrawalRatePct / 100; // 연 인출률
+  const target = fireNumber;
 
-      for (let m = 0; m < 12; m++) {
+  let assets = P0;
+  let reached = assets >= target;
+
+  const MAX_YEARS = 40; // 더 길게 보고 싶으면 80~100으로 늘려도 됨
+
+  for (let year = 0; year <= MAX_YEARS; year++) {
+    data.push({ year, assets, target });
+
+    // 1년(12개월) 시뮬레이션
+    for (let m = 0; m < 12; m++) {
+      if (!reached) {
+        // 목표 전: 복리 + 월 투자
         assets = assets * (1 + rMonthly) + PMT;
+
+        if (assets >= target) reached = true;
+      } else {
+        // 목표 후: 복리 - 인출(자산의 연 인출률을 매달 나눠 인출)
+        const withdrawMonthly = (assets * wAnnual) / 12;
+        assets = assets * (1 + rMonthly) - withdrawMonthly;
+
+        // 자산이 0 이하로 가면 더 의미 없으니 안전장치
+        if (assets <= 0) {
+          assets = 0;
+          break;
+        }
       }
-
-      if (assets >= target) break;
     }
+  }
 
-    return data;
-  }, [inputs.currentAssets, inputs.monthlyContribution, inputs.annualReturnPct, fireNumber]);
+  return data;
+}, [
+  inputs.currentAssets,
+  inputs.monthlyContribution,
+  inputs.annualReturnPct,
+  inputs.withdrawalRatePct,
+  fireNumber,
+]);
 
 
   const yearsToTargetText = useMemo(() => {
@@ -395,6 +423,12 @@ const annualSpend = useMemo(() => {
             <p className="mt-2 text-xs text-gray-500">
               검은 선: 자산 성장 / 빨간 점선: 목표 자산
             </p>
+            <p className="mt-2 text-xs text-gray-400 leading-relaxed">
+            ※ 본 그래프는 고정 수익률·고정 인출을 가정한 기대값 시뮬레이션입니다.
+            실제 시장에서는 변동성, 하락장 순서(Sequence Risk), 세금·비용 등에 따라
+            결과가 크게 달라질 수 있습니다.
+            </p>
+
           </div>
           </div>
         </div>
