@@ -1,23 +1,5 @@
 "use client";
 
-/*
-[개발 / 배포 메모]
-
-- 로컬 개발 실행:
-  npm run dev
-  → http://localhost:3000
-
-- 퍼블릭(배포) 업데이트 순서:
-  git add .
-  git commit -m "Updated"
-  git push
-
-  * GitHub main 브랜치 푸시
-  * Vercel이 자동으로 재배포함 (1~3분 소요)
-  
-- 웹사이트 주소 : https://fire-dashboard-ecru.vercel.app
-*/
-
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   LineChart,
@@ -237,7 +219,7 @@ const annualSpend = useMemo(() => {
     <main className="min-h-screen bg-gray-50 text-gray-900">
       <div className="mx-auto max-w-6xl p-6">
         <header className="mb-6">
-          <h1 className="text-2xl font-bold">은퇴가 하고 싶다 푸하하~ (은퇴 계산기)</h1>
+          <h1 className="text-2xl font-bold">은퇴 시점 계산 푸하하~ (은퇴 계산기)</h1>
           <p className="mt-2 text-sm text-gray-600">
             입력된 값은 따로 수집되지 않습니다.
           </p>
