@@ -9,7 +9,7 @@
 
 - 퍼블릭(배포) 업데이트 순서:
   git add .
-  git commit -m "메시지"
+  git commit -m "Updated"
   git push
 
   → GitHub main 브랜치 푸시
@@ -366,7 +366,7 @@ const annualSpend = useMemo(() => {
                   />
                   <Tooltip
                     formatter={(v) =>
-                    `${Number(v).toLocaleString("ko-KR")} 원`
+                    `${Math.round(Number(v)).toLocaleString("ko-KR")} 원`
                     }
                     labelFormatter={(l) => `${l}년`}
                   />
