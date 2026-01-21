@@ -16,7 +16,14 @@ export default function ForecastPage() {
   const [currentAssets, setCurrentAssets] = useState(100000000);
   const [monthlyContribution, setMonthlyContribution] = useState(1500000);
   const [annualReturnPct, setAnnualReturnPct] = useState(8);
-  const [months, setMonths] = useState(120);
+  const [durationValue, setDurationValue] = useState(10); // 기간 숫자 (예: 10)
+  const [durationUnit, setDurationUnit] = useState<"months" | "years">("years"); // 단위
+
+  const months = useMemo(() => {
+    const v = Math.max(0, durationValue);
+    return durationUnit === "years" ? Math.round(v * 12) : Math.round(v);
+  }, [durationValue, durationUnit]);
+
 
   const futureValue = useMemo(() => {
     const P0 = currentAssets;
@@ -58,7 +65,37 @@ export default function ForecastPage() {
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <NumField label="현재 자산 (원)" value={currentAssets} onChange={setCurrentAssets} />
             <NumField label="월 납입금 (원)" value={monthlyContribution} onChange={setMonthlyContribution} />
-            <NumField label="납입 기간 (개월)" value={months} onChange={(v) => setMonths(clamp(v, 0, 1200))} />
+            <div>
+        <label className="block text-sm font-medium text-gray-700">납입 기간</label>
+
+        <div className="mt-1 flex gap-2">
+            <input
+                className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-gray-900"
+                inputMode="decimal"
+                value={String(durationValue)}
+                onChange={(e) => {
+                  const raw = e.target.value.replaceAll(",", ".").replace(/[^0-9.]/g, "");
+                  if (raw === "") return setDurationValue(0);
+                  const n = Number(raw);
+                  setDurationValue(Number.isFinite(n) ? n : 0);
+                 }}
+             />
+
+        <select
+           className="rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-gray-900"
+           value={durationUnit}
+           onChange={(e) => setDurationUnit(e.target.value as "months" | "years")}
+         >
+           <option value="months">개월</option>
+           <option value="years">년</option>
+         </select>
+        </div>
+
+         <p className="mt-1 text-xs text-gray-500">
+           계산에는 {months.toLocaleString("ko-KR")}개월로 적용됩니다.
+         </p>
+        </div>
+
             <NumField label="연 기대수익률 (%)" value={annualReturnPct} onChange={(v) => setAnnualReturnPct(clamp(v, -50, 50))} decimal />
           </div>
         </section>
