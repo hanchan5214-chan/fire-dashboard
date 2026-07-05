@@ -219,7 +219,7 @@ const annualSpend = useMemo(() => {
     <main className="min-h-screen bg-gray-50 text-gray-900">
       <div className="mx-auto max-w-6xl p-6">
         <header className="mb-6">
-          <h1 className="text-2xl font-bold">은퇴 시점 계산 푸하하~ (은퇴 계산기)</h1>
+          <h1 className="text-2xl font-bold">은퇴 시점 계산 (은퇴 계산기)</h1>
           <p className="mt-2 text-sm text-gray-600">
             입력된 값은 따로 수집되지 않습니다.
           </p>
